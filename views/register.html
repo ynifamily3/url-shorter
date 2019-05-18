@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>URL Shorter</title>
+        <meta charset='utf-8'/>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0,user-scalable=no'/>
+    </head>
+    <body>
+        <script>
+            document.body.onkeydown = function(e) {
+                document.getElementById('to_url').focus();
+            };
+        </script>
+        <h3>URL Shorter</h3>
+        <form action='./' method='POST'>
+            Enter a URL to reduce the length : 
+            <input type='text' name='to_url' id='to_url'/>
+            <input type='submit' value='reduce'/>
+        </form>
+    </body>
+</html>

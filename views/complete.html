@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+    <body>
+        <input type="text" value="<%= url %>" id="myInput" readonly style="position: absolute; left:-9999px; top:-9999px;">
+        <h1 id="rere"><%= url %></h1> <button onclick="myFunction()">Copy URL</button>
+        <span id="copied" style="display: none">Copied!</span>
+        <script>
+            document.getElementById("rere").textContent = window.location.href.split('/').slice(0, 3).join('/') + '/' + '<%= url %>';
+            history.replaceState(null,null,"<%= url %>");
+            function myFunction() {
+                document.getElementById("myInput").value = window.location.href.split('/').slice(0, 3).join('/') + '/' + '<%= url %>';
+                var copyText = document.getElementById("myInput");
+                copyText.select();
+                document.execCommand("copy");
+                document.getElementById("copied").style.display = 'inline';
+            }
+        </script>
+
+</body>
+</html>

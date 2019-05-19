@@ -5,6 +5,7 @@ const UrlShorterRepository = require('./url_shorter_repository')
 
 const dao = new AppDAO('./url_shorter_database.sqlite3');
 const urlRepo = new UrlShorterRepository(dao);
+require('dotenv').config()
 
 urlRepo.createTable()
 .then(() => {
@@ -45,6 +46,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
+		// console.log(process.env.TEST)
 		res.render('register.html');
 });
 
@@ -53,19 +55,19 @@ app.post('/', async (req, res) => {
 		try {
 			const result = await insert(req.body['to_url']);
 			console.log(result);
-			res.send('단축 URL 생성 성공 ' + 'https://u.miel.dev/' + result['hash']);
+			res.render("complete.html", {url: result['hash']})
+			// res.send('단축 URL 생성 성공 ' + 'https://u.miel.dev/' + result['hash']);
 		} catch (error) {
 			res.send('단축 URL 생성 실패');
 		}
 });
 
-app.get('/:test', async (req, res) => {
+app.get('/:go', async (req, res) => {
 		try {
-		const url = await get_hash_to_url(req.params['test']);
-		// res.send("리다이렉션 to " + );
-		res.redirect(url);
+		const url = await get_hash_to_url(req.params['go']);
+			res.redirect(url);
 		} catch (error) {
-		res.send("리다이렉션 할 곳을 못 찾았어요");
+			res.send("리다이렉션 할 곳을 못 찾았어요");
 		}
 		});
 
@@ -73,3 +75,40 @@ const port = process.env.PORT || 8080;
 app.listen(port, () => {
 		console.log('서버 살살 녹는다~');
 });
+
+// gcloud builds submit --tag gcr.io/youtube-repeat-164304/helloworld
+/*
+
+// Imports the Google Cloud client library
+const {Datastore} = require('@google-cloud/datastore');
+
+async function quickStart() {
+  // Your Google Cloud Platform project ID
+  const projectId = 'url-shorter-241104';
+
+  // Creates a client
+  const datastore = new Datastore({
+    projectId: projectId,
+  });
+
+  // The kind for the new entity
+  const kind = 'Task';
+  // The name/ID for the new entity
+  const name = 'sampletask12'; // autoincrement
+  // The Cloud Datastore key for the new entity
+  const taskKey = datastore.key([kind, name]);
+
+  // Prepares the new entity
+  const task = {
+    key: taskKey,
+    data: {
+	  another: '123',
+      description: '+99',
+    },
+  };
+
+  // Saves the entity
+  await datastore.save(task);
+  console.log(`Saved ${task.key.name}: ${task.data.description}`);
+}
+quickStart().catch(console.error);*/

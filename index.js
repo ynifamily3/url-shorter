@@ -76,7 +76,7 @@ app.listen(port, () => {
 		console.log('서버 살살 녹는다~');
 });
 
-// gcloud builds submit --tag gcr.io/youtube-repeat-164304/helloworld
+// gcloud builds submit --tag gcr.io/url-shorter-241104/urlshortimage
 /*
 
 // Imports the Google Cloud client library
